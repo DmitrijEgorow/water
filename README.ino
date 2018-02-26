@@ -24,15 +24,15 @@ void on_request()
     if(Wire.available()){ char l=Wire.read();
     if(l==0x1E)
       {
-        Wire.beginTransmission(0x1E);
+        //Wire.beginTransmission(0x1E);
         Wire.write(0x1F);
-        Wire.endTransmission();
+        //Wire.endTransmission();
         return;
       }
     if(l==0xA0){
-      Wire.beginTransmission(0xA0);
+      //Wire.beginTransmission(0xA0);
         Wire.write("12");
-        Wire.endTransmission();
+       // Wire.endTransmission();
         return;}
     }
   } 
@@ -65,9 +65,9 @@ void loop() {
     e[0] = (a-'0')*10+b-'0';
     e[1] = (c-'0')*10+d-'0';
     if ((b!='\n') && (d!='\n') && (c!='\n') && (a!='\n')){
-      Wire.beginTransmission(0xA0);
+     // Wire.beginTransmission(0xA0);
           Wire.write((const char *)e,4);
-          Wire.endTransmission();
+       //   Wire.endTransmission();
     Serial.write((const char *)e,4);
       }
   }
