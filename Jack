@@ -1,0 +1,19 @@
+n, m = map(int, input().split())
+a = list(map(int, input().split()))
+if (min(a)>m):
+    print(-1)
+else:
+    a.sort()
+    k = a[0]
+    t=m-k
+    index=n-1
+    for i in range(1, n):
+        if (a[i]>t):
+            index=i-1
+            #print(index, a)
+            break
+    pair = index+1
+    index=(int)(index+2)//2
+    index=index+n-pair
+    print(index)
+#16
