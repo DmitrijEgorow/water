@@ -1,0 +1,37 @@
+import re
+s = input()
+
+def pal(t):
+    return (t==t[::-1])
+
+a = re.split('\. |\! |\? ', s)
+num = [0]*len(a)
+j=0
+big=""
+g = [""]*len(a)
+for v in a:
+    u = re.split("\, | ", v)
+    #print(u)
+    for i in u:
+        if (pal(i)):
+            num[j]=num[j]+1
+            if (len(i)>len(big)):
+                big=i
+            if (len(i)>len(g[j])):
+                g[j]=i
+    j=j+1
+#print(a, num, g, big)
+k = [(num[x], len(g[x]), x) for x in range(len(a))]
+#print(k)
+#print(sorted(k))
+print(k[0][2]+1)
+print(*k[0][0:1], end=" ")
+print(len(big))
+#3
+# answ = max(num)
+# for y in range(len(a)):
+#     if (answ==num[y]):
+#         answ=y
+#         break
+# print(answ+1)
+# print(num[answ], len(big))
