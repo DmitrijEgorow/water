@@ -1,0 +1,117 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+public class LeftController : MonoBehaviour
+{
+    public GameObject Sp;
+    public GameObject Controller_right;
+    private SteamVR_TrackedObject trackedObj;
+
+    public float timer;
+    public bool paused;
+    public bool p;
+
+
+
+
+    // 1
+    public GameObject Cube;
+
+    // 3
+    private Transform laserTransform;
+    // 4
+    private Vector3 hitPoint;
+
+
+    private void ShowLaser(RaycastHit hit)
+    {
+        // 1
+        Cube.SetActive(true);
+        // 2
+        laserTransform.position = Vector3.Lerp(trackedObj.transform.position, hitPoint, .5f);
+        // 3
+        laserTransform.LookAt(hitPoint);
+        // 4
+        laserTransform.localScale = new Vector3(laserTransform.localScale.x, laserTransform.localScale.y,
+            hit.distance);
+    }
+
+    private void Start()
+    {
+        // 1
+        Cube = Instantiate(Cube);
+        // 2
+        laserTransform = Cube.transform;
+    }
+
+
+
+
+    private SteamVR_Controller.Device Controller
+    {
+        get { return SteamVR_Controller.Input((int)trackedObj.index); }
+    }
+
+    void Awake()
+    {
+        trackedObj = GetComponent<SteamVR_TrackedObject>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        Time.timeScale = timer;
+
+        // 1
+        if (Controller.GetAxis() != Vector2.zero)
+        {
+            Debug.Log(gameObject.name + Controller.GetAxis());
+
+            if (Controller.GetAxis().x == -1) {
+                if (paused == false) {
+                    paused = true;
+                } else if (paused == true) {
+                    paused = false;
+                }
+
+                if (paused == true) {
+                    timer = 0;
+                    p = true;
+                } else if (p = false) {
+                    timer = 1f;
+                    p = false;
+                }
+            }
+        }
+
+        // 2
+        if (Controller.GetHairTriggerDown())
+        {
+            Debug.Log(gameObject.name + " Trigger Press" + trackedObj + trackedObj.transform.position);
+            RaycastHit hit;
+        }
+
+        // 3
+        if (Controller.GetHairTriggerUp())
+        {
+            Debug.Log(gameObject.name + " Trigger Release");
+        }
+
+        // 4
+        if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
+        {
+            Debug.Log(gameObject.name + " Grip Press");
+        }
+
+        // 5
+        if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
+        {
+            Debug.Log(gameObject.name + " Grip Release");
+        }
+
+    }
+}
+
